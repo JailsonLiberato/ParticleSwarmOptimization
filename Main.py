@@ -1,4 +1,4 @@
-from PSO import PSOClass 
+""" Main class of execution."""
 class Main:
     def executar(self):
         print("\n\n")
@@ -6,7 +6,6 @@ class Main:
         print("\tPARTICLE SWARM OPTIMIZATION")
         print("#"*40)
         print("\n\n")
-        p = PSOClass()
 
 main = Main()
 main.executar()

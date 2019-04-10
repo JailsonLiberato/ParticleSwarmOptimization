@@ -1,4 +1,5 @@
-class ParticleClass:
+""" Model class for particle."""
+class Particle:
 
     def __init__(self, position, velocity):
         print("Create a new Particle")
