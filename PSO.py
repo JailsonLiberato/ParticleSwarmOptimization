@@ -11,8 +11,8 @@ class PSOClass:
 
     def __init__(self):
         #self.executarSphere()
-        self.executarRastrigin()
-        #self.executarRosenbrock()
+        #self.executarRastrigin()
+        self.executarRosenbrock()
 
     def executarSphere(self):
         print("-> EXECUTANDO SPHERE")
@@ -65,3 +65,26 @@ class PSOClass:
 
     def executarRosenbrock(self):
         print("EXECUTANDO ROSENBROCK")
+        x_max = 10 * np.ones(2)
+        x_min = -1 * x_max
+        bounds = (x_min, x_max)
+        options = {'c1': 2.05, 'c2': 2.05, 'w': 0.8}
+        optimizer = ps.single.GlobalBestPSO(n_particles=30, dimensions=2, options=options, bounds=bounds)
+        cost, posGlobalBest = optimizer.optimize(self.rosenbrock_with_args, 10000, a=1, b=100, c=0)
+
+        optimizer = ps.single.LocalBestPSO(n_particles=30, dimensions=2, options=self.optionsLocal, bounds=bounds)
+        cost, posLocalBest = optimizer.optimize(self.rosenbrock_with_args, 10000, a=1, b=100, c=0)
+
+
+        plt.figure("Function Rastrigin")
+        plt.plot(posGlobalBest,'-g', label='GPSO')
+        plt.plot(posLocalBest, '-o', label='LPSO')
+        plt.legend(loc='upper left')
+        plt.ylabel('Fitness')
+        plt.title("Function Rastrigin")
+        plt.show()
+        
+
+    def rosenbrock_with_args(self, x, a, b, c=0):
+        f = (a - x[:, 0]) ** 2 + b * (x[:, 1] - x[:, 0] ** 2) ** 2 + c
+        return f
