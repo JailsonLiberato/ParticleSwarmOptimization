@@ -1,98 +1,91 @@
 import matplotlib.pyplot as plot
-import matplotlib as mpl
-import numpy as np 
+import numpy as np
+from util.constants import Constants
 
-SPHERE = 'Sphere'
-RASTRINGIN = 'Rastringin'
-ROSENBROCK = 'Rosenbrock'
-CONSTANT_WEIGHT = 'Constant Weight'
-LINEAR_DECAY_WEIGHT = ' Linear Decay Weight'
-CONSTRICT_COEFF_WEIGHT = 'Constrict Coeff Weight'
 
 class Main:
 
-    def executeMain(self):
-        self.createSphere()
-        self.createRastringin()
-        self.createRosenbrock()
+    def execute_main(self):
+        self.create_sphere()
+        self.create_rastringin()
+        self.create_rosenbrock()
 
-    def createSphere(self):
-        self.createConstantWeight(SPHERE)
-        self.createBoxplotConstantWeight(SPHERE)
-        self.createLinearDecayWeight(SPHERE)
-        self.createBoxplotLinearDecayWeight(SPHERE)
-        self.createConstrictionCoeffWeight(SPHERE)
-        self.createBoxplotConstrictionCoeffWeight(SPHERE)
-    
-    def createRastringin(self):
-        self.createConstantWeight(RASTRINGIN)
-        self.createBoxplotConstantWeight(RASTRINGIN)
-        self.createLinearDecayWeight(RASTRINGIN)
-        self.createBoxplotLinearDecayWeight(RASTRINGIN)
-        self.createConstrictionCoeffWeight(RASTRINGIN)
-        self.createBoxplotConstrictionCoeffWeight(RASTRINGIN)
+    def create_sphere(self):
+        self.create_constant_weight(Constants.SPHERE)
+        self.create_boxplot_constant_weight(Constants.SPHERE)
+        self.create_linear_decay_weight(Constants.SPHERE)
+        self.create_boxplot_linear_decay_weight(Constants.SPHERE)
+        self.create_constriction_coeff_weight(Constants.SPHERE)
+        self.create_boxplot_constriction_coeff_weight(Constants.SPHERE)
 
-    def createRosenbrock(self):
-        self.createConstantWeight(ROSENBROCK)
-        self.createBoxplotConstantWeight(ROSENBROCK)
-        self.createLinearDecayWeight(ROSENBROCK)
-        self.createBoxplotLinearDecayWeight(ROSENBROCK)
-        self.createConstrictionCoeffWeight(ROSENBROCK)
-        self.createBoxplotConstrictionCoeffWeight(ROSENBROCK)
+    def create_rastringin(self) -> None:
+        self.create_constant_weight(Constants.RASTRINGIN)
+        self.create_boxplot_constant_weight(Constants.RASTRINGIN)
+        self.create_linear_decay_weight(Constants.RASTRINGIN)
+        self.create_boxplot_linear_decay_weight(Constants.RASTRINGIN)
+        self.create_constriction_coeff_weight(Constants.RASTRINGIN)
+        self.create_boxplot_constriction_coeff_weight(Constants.RASTRINGIN)
 
+    def create_rosenbrock(self):
+        self.create_constant_weight(Constants.ROSENBROCK)
+        self.create_boxplot_constant_weight(Constants.ROSENBROCK)
+        self.create_linear_decay_weight(Constants.ROSENBROCK)
+        self.create_boxplot_linear_decay_weight(Constants.ROSENBROCK)
+        self.create_constriction_coeff_weight(Constants.ROSENBROCK)
+        self.create_boxplot_constriction_coeff_weight(Constants.ROSENBROCK)
 
-    def createConstantWeight(self, function):
+    def create_constant_weight(self, function):
         globals = [5, 6]
-        locals = [7,8]
+        locals = [7, 8]
         focals = [9, 10]
-        title = function + ' ' + CONSTANT_WEIGHT
+        title = function + ' ' + Constants.CONSTANT_WEIGHT
         filename = title.lower().replace(' ', '_')
-        self.generateCurveLineGraph(globals, locals, focals, title, filename)
+        self.generate_curve_line_graph(globals, locals, focals, title, filename)
 
-    def createBoxplotConstantWeight(self, function):
+    def create_boxplot_constant_weight(self, function):
         np.random.seed(10)
         globals = np.random.normal(100, 10, 200)
         locals = np.random.normal(80, 30, 200)
         focals = np.random.normal(90, 20, 200)
-        title = function + ' ' + CONSTANT_WEIGHT
+        title = function + ' ' + Constants.CONSTANT_WEIGHT
         filename = title.lower().replace(' ', '_')
-        self.generateBoxplotGraph(globals, locals, focals, title, filename)
-        
-    def createLinearDecayWeight(self, function):
+        self.generate_boxplot_graph(globals, locals, focals, title, filename)
+
+    def create_linear_decay_weight(self, function):
         globals = [5, 6]
-        locals = [7,8]
+        locals = [7, 8]
         focals = [9, 10]
-        title = function + ' ' + LINEAR_DECAY_WEIGHT
+        title = function + ' ' + Constants.LINEAR_DECAY_WEIGHT
         filename = title.lower().replace(' ', '_')
-        self.generateCurveLineGraph(globals, locals, focals, title, filename)
-        
-    def createBoxplotLinearDecayWeight(self, function):
+        self.generate_curve_line_graph(globals, locals, focals, title, filename)
+
+    def create_boxplot_linear_decay_weight(self, function):
         np.random.seed(10)
         globals = np.random.normal(100, 10, 200)
         locals = np.random.normal(80, 30, 200)
         focals = np.random.normal(90, 20, 200)
-        title = function + ' ' + LINEAR_DECAY_WEIGHT
+        title = function + ' ' + Constants.LINEAR_DECAY_WEIGHT
         filename = title.lower().replace(' ', '_')
-        self.generateBoxplotGraph(globals, locals, focals, title, filename)
+        self.generate_boxplot_graph(globals, locals, focals, title, filename)
 
-    def createConstrictionCoeffWeight(self, function):
+    def create_constriction_coeff_weight(self, function):
         globals = [5, 6]
-        locals = [7,8]
+        locals = [7, 8]
         focals = [9, 10]
-        title = function + ' ' + CONSTRICT_COEFF_WEIGHT
+        title = function + ' ' + Constants.CONSTRICT_COEFFICIENT_WEIGHT
         filename = title.lower().replace(' ', '_')
-        self.generateCurveLineGraph(globals, locals, focals, title, filename)
+        self.generate_curve_line_graph(globals, locals, focals, title, filename)
 
-    def createBoxplotConstrictionCoeffWeight(self, function):
+    def create_boxplot_constriction_coeff_weight(self, function):
         np.random.seed(10)
         globals = np.random.normal(100, 10, 200)
         locals = np.random.normal(80, 30, 200)
         focals = np.random.normal(90, 20, 200)
-        title = function + ' ' + CONSTRICT_COEFF_WEIGHT
+        title = function + ' ' + Constants.CONSTRICT_COEFFICIENT_WEIGHT
         filename = title.lower().replace(' ', '_')
-        self.generateBoxplotGraph(globals, locals, focals, title, filename)
-    
-    def generateCurveLineGraph(self, globals, locals, focals, title, filename):
+        self.generate_boxplot_graph(globals, locals, focals, title, filename)
+
+    def generate_curve_line_graph(self, globals, locals, focals, title, filename):
         plot.plot(globals, label="Global Best")
         plot.plot(locals, label="Local Best")
         plot.plot(focals, label="Focal Best")
@@ -100,18 +93,19 @@ class Main:
         plot.ylabel("Fitness")
         plot.legend()
         plot.title("Curve Line: " + title)
-        plot.savefig('..//file//curve_line_' + filename +'.png')
+        plot.savefig('..//file//curve_line_' + filename + '.png')
         plot.close()
 
-    def generateBoxplotGraph(self, globals, locals, focals, title, filename):
+    def generate_boxplot_graph(self, globals, locals, focals, title, filename):
         fig = plot.figure(1, figsize=(9, 6))
         ax = fig.add_subplot(111)
         data_to_plot = [globals, locals, focals]
         bp = ax.boxplot(data_to_plot)
         ax.set_xticklabels(['Global', 'Local', 'Focal'])
         plot.title("Boxplot: " + title)
-        fig.savefig('..//file//boxplot_' + filename +'.png', bbox_inches='tight')
+        fig.savefig('..//file//boxplot_' + filename + '.png', bbox_inches='tight')
         plot.close()
 
+
 main = Main()
-main.executeMain()
+main.execute_main()
