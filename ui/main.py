@@ -1,44 +1,64 @@
 import matplotlib.pyplot as plot
 import numpy as np
 from util.constants import Constants
+from business.functions.sphere_function import SphereFunction
+from business.functions.rastringin_function import RastringinFunction
+from business.functions.rosenbrock_function import RosenbrockFunction
+from business.pso_service import PSOService
+from business.topology.global_topology import GlobalTopology
+from business.topology.local_topology import LocalTopology
+from business.topology.focal_topology import FocalTopology
 
 
 class Main:
+
+    __pso_service: PSOService
+    __global_topology: GlobalTopology
+    __local_topology: LocalTopology
+    __focal_topology: FocalTopology
 
     def execute_main(self):
         self.__create_sphere()
         self.__create_rastringin()
         self.__create_rosenbrock()
+        self.__pso_service = PSOService()
+        self.__global_topology = GlobalTopology()
+        self.__local_topology = LocalTopology()
+        self.__focal_topology = FocalTopology()
 
     def __create_sphere(self):
-        self.__create_constant_weight(Constants.SPHERE)
-        self.__create_boxplot_constant_weight(Constants.SPHERE)
-        self.__create_linear_decay_weight(Constants.SPHERE)
-        self.__create_boxplot_linear_decay_weight(Constants.SPHERE)
-        self.__create_constriction_coeff_weight(Constants.SPHERE)
-        self.__create_boxplot_constriction_coeff_weight(Constants.SPHERE)
+        sphere_function = SphereFunction()
+        self.__create_constant_weight(sphere_function)
+        self.__create_boxplot_constant_weight(sphere_function)
+        self.__create_linear_decay_weight(sphere_function)
+        self.__create_boxplot_linear_decay_weight(sphere_function)
+        self.__create_constriction_coeff_weight(sphere_function)
+        self.__create_boxplot_constriction_coeff_weight(sphere_function)
 
     def __create_rastringin(self):
-        self.__create_constant_weight(Constants.RASTRINGIN)
-        self.__create_boxplot_constant_weight(Constants.RASTRINGIN)
-        self.__create_linear_decay_weight(Constants.RASTRINGIN)
-        self.__create_boxplot_linear_decay_weight(Constants.RASTRINGIN)
-        self.__create_constriction_coeff_weight(Constants.RASTRINGIN)
-        self.__create_boxplot_constriction_coeff_weight(Constants.RASTRINGIN)
+        rastringin_function = RastringinFunction()
+        self.__create_constant_weight(rastringin_function)
+        self.__create_boxplot_constant_weight(rastringin_function)
+        self.__create_linear_decay_weight(rastringin_function)
+        self.__create_boxplot_linear_decay_weight(rastringin_function)
+        self.__create_constriction_coeff_weight(rastringin_function)
+        self.__create_boxplot_constriction_coeff_weight(rastringin_function)
 
     def __create_rosenbrock(self):
-        self.__create_constant_weight(Constants.ROSENBROCK)
-        self.__create_boxplot_constant_weight(Constants.ROSENBROCK)
-        self.__create_linear_decay_weight(Constants.ROSENBROCK)
-        self.__create_boxplot_linear_decay_weight(Constants.ROSENBROCK)
-        self.__create_constriction_coeff_weight(Constants.ROSENBROCK)
-        self.__create_boxplot_constriction_coeff_weight(Constants.ROSENBROCK)
+        rosenbrock_function = RosenbrockFunction()
+        self.__create_constant_weight(rosenbrock_function)
+        self.__create_boxplot_constant_weight(rosenbrock_function)
+        self.__create_linear_decay_weight(rosenbrock_function)
+        self.__create_boxplot_linear_decay_weight(rosenbrock_function)
+        self.__create_constriction_coeff_weight(rosenbrock_function)
+        self.__create_boxplot_constriction_coeff_weight(rosenbrock_function)
 
-    def __create_constant_weight(self, function):
-        globals = [5, 6]
+    def __create_constant_weight(self, fitness_function):
+        self.__pso_service = PSOService(fitness_function, self.__global_topology, False, False)
+        globals = self.__pso_service.fitness_values
         locals = [7, 8]
         focals = [9, 10]
-        title = function + ' ' + Constants.CONSTANT_WEIGHT
+        title = function.name + ' ' + Constants.CONSTANT_WEIGHT
         filename = title.lower().replace(' ', '_')
         self.__generate_curve_line_graph(globals, locals, focals, title, filename)
 
@@ -47,7 +67,7 @@ class Main:
         globals = np.random.normal(100, 10, 200)
         locals = np.random.normal(80, 30, 200)
         focals = np.random.normal(90, 20, 200)
-        title = function + ' ' + Constants.CONSTANT_WEIGHT
+        title = function.name + ' ' + Constants.CONSTANT_WEIGHT
         filename = title.lower().replace(' ', '_')
         self.__generate_boxplot_graph(globals, locals, focals, title, filename)
 
@@ -55,7 +75,7 @@ class Main:
         globals = [5, 6]
         locals = [7, 8]
         focals = [9, 10]
-        title = function + ' ' + Constants.LINEAR_DECAY_WEIGHT
+        title = function.name + ' ' + Constants.LINEAR_DECAY_WEIGHT
         filename = title.lower().replace(' ', '_')
         self.__generate_curve_line_graph(globals, locals, focals, title, filename)
 
@@ -64,7 +84,7 @@ class Main:
         globals = np.random.normal(100, 10, 200)
         locals = np.random.normal(80, 30, 200)
         focals = np.random.normal(90, 20, 200)
-        title = function + ' ' + Constants.LINEAR_DECAY_WEIGHT
+        title = function.name + ' ' + Constants.LINEAR_DECAY_WEIGHT
         filename = title.lower().replace(' ', '_')
         self.__generate_boxplot_graph(globals, locals, focals, title, filename)
 
@@ -72,7 +92,7 @@ class Main:
         globals = [5, 6]
         locals = [7, 8]
         focals = [9, 10]
-        title = function + ' ' + Constants.CONSTRICT_COEFFICIENT_WEIGHT
+        title = function.name + ' ' + Constants.CONSTRICT_COEFFICIENT_WEIGHT
         filename = title.lower().replace(' ', '_')
         self.__generate_curve_line_graph(globals, locals, focals, title, filename)
 
@@ -81,7 +101,7 @@ class Main:
         globals = np.random.normal(100, 10, 200)
         locals = np.random.normal(80, 30, 200)
         focals = np.random.normal(90, 20, 200)
-        title = function + ' ' + Constants.CONSTRICT_COEFFICIENT_WEIGHT
+        title = function.name + ' ' + Constants.CONSTRICT_COEFFICIENT_WEIGHT
         filename = title.lower().replace(' ', '_')
         self.__generate_boxplot_graph(globals, locals, focals, title, filename)
 
