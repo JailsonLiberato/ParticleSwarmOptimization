@@ -10,6 +10,7 @@ class GlobalTopology(Topology):
         for particle in particles:
             r1 = random.uniform(0, 1)
             r2 = random.uniform(0, 1)
-            particle.velocity = inertia * particle.velocity + Constants.COEFFICIENT1 * r1 * \
+            particle.velocity = (inertia * particle.velocity) + Constants.COEFFICIENT1 * r1 * \
                                 (particle.pbest - particle.position) + Constants.COEFFICIENT2 * r2 \
                                 * (gbest - particle.position)
+        return particles

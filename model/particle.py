@@ -1,4 +1,7 @@
 import numpy as np
+from util.constants import Constants
+from copy import copy
+
 
 class Particle:
 
@@ -12,7 +15,8 @@ class Particle:
     def __init__(self, id, position):
         self.__id = id
         self.__position = position
-        self.__velocity = np.zeros(len(position))
+        self.__pbest = copy(position)
+        self.__velocity = np.zeros(Constants.N_DIMENSIONS)
 
     @property
     def id(self):
