@@ -13,3 +13,4 @@ class GlobalTopology(Topology):
             particle.velocity = inertia * particle.velocity + Constants.COEFFICIENT1 * r1 * \
                                 (particle.pbest - particle.position) + Constants.COEFFICIENT2 * r2 \
                                 * (gbest - particle.position)
+        return particles

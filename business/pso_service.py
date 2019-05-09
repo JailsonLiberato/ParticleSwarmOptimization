@@ -1,29 +1,30 @@
+from typing import List
+
 from util.constants import Constants
 from business.particle_service import ParticleService
 from business.functions.fitness_function import FitnessFunction
-from model.particle import Particle
+from business.topology.topology import Topology
 import math
 import numpy as np
 
 
 class PSOService:
+    __particles:[]
     __particle_service: ParticleService
-    __gbest: [float]
-    __fitness_function: FitnessFunction
 
-    def __init__(self, fitness_function, topology, linear_decay_weight, constriction_coeff_weight):
+    def __init__(self, fitness_function: FitnessFunction, topology: Topology, linear_decay_weight: bool, constriction_coeff_weight: bool) -> object:
         self.__fitness_values = []
-        self.__particles = [Particle]
         self.__particle_service = ParticleService()
         self.__fitness_function = fitness_function
         self.__topology = topology
         self.__linear_decay_weight = linear_decay_weight
         self.__constriction_coeff_weight = constriction_coeff_weight
+        self.__particles = self.__particle_service.initialize_particles(self.__fitness_function)
+        self.__gbest = self.__particles[0].pbest
         self.__execute_pso()
 
-    def execute_pso(self):
+    def __execute_pso(self):
         count_iterations: int = 0
-        self.__particles = self.__particle_service.initialize_particles(self.__fitness_function)
         while count_iterations < Constants.N_ITERATIONS:
             self.calculate_fitness()
             self.update_gbest()
@@ -34,6 +35,7 @@ class PSOService:
             self.update_position()
             self.update_bound_adjustament()
             self.__fitness_values.append(self.__fitness_function.run(self.__gbest))
+            print("Count Iteration: ", count_iterations, " fitness: ", self.__fitness_values[count_iterations - 1])
             count_iterations += 1
 
     def calculate_fitness(self):
@@ -49,8 +51,7 @@ class PSOService:
                 self.__gbest = particle.pbest
 
     def is_limit_exceeded(self, pbest):
-        r = range(self.__fitness_function.min_bound, self.__fitness_function.max_bound)
-        return pbest(r)
+        return np.any(pbest >= self.__fitness_function.min_bound) and np.any(pbest <= self.__fitness_function.max_bound)
 
     def update_position(self):
         for particle in self.__particles:

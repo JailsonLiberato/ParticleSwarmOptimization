@@ -13,27 +13,26 @@ from business.topology.focal_topology import FocalTopology
 class Main:
 
     __pso_service: PSOService
-    __global_topology: GlobalTopology
-    __local_topology: LocalTopology
-    __focal_topology: FocalTopology
+
+    def __init__(self):
+        self.__focal_topology = FocalTopology()
+        self.__local_topology = LocalTopology()
+        self.__global_topology = GlobalTopology()
 
     def execute_main(self):
         self.__create_sphere()
-        self.__create_rastringin()
-        self.__create_rosenbrock()
-        self.__pso_service = PSOService()
-        self.__global_topology = GlobalTopology()
-        self.__local_topology = LocalTopology()
-        self.__focal_topology = FocalTopology()
+        #self.__create_rastringin()
+        #self.__create_rosenbrock()
+        #self.__pso_service = PSOService()
 
     def __create_sphere(self):
         sphere_function = SphereFunction()
         self.__create_constant_weight(sphere_function)
-        self.__create_boxplot_constant_weight(sphere_function)
-        self.__create_linear_decay_weight(sphere_function)
-        self.__create_boxplot_linear_decay_weight(sphere_function)
-        self.__create_constriction_coeff_weight(sphere_function)
-        self.__create_boxplot_constriction_coeff_weight(sphere_function)
+        #self.__create_boxplot_constant_weight(sphere_function)
+        #self.__create_linear_decay_weight(sphere_function)
+        #self.__create_boxplot_linear_decay_weight(sphere_function)
+        #self.__create_constriction_coeff_weight(sphere_function)
+        #self.__create_boxplot_constriction_coeff_weight(sphere_function)
 
     def __create_rastringin(self):
         rastringin_function = RastringinFunction()
@@ -58,7 +57,7 @@ class Main:
         globals = self.__pso_service.fitness_values
         locals = [7, 8]
         focals = [9, 10]
-        title = function.name + ' ' + Constants.CONSTANT_WEIGHT
+        title = fitness_function.name + ' ' + Constants.CONSTANT_WEIGHT
         filename = title.lower().replace(' ', '_')
         self.__generate_curve_line_graph(globals, locals, focals, title, filename)
 
