@@ -7,12 +7,13 @@ from model.particle import Particle
 class ParticleService:
 
     def __init__(self):
-        print("Particle Service")
+        pass
 
     def initialize_particles(self, fitness_function: FitnessFunction):
         particles = []
         for i in range(Constants.N_PARTICLES):
-            particle = Particle(i + 1, self.generate_initial_position(fitness_function))
+            position = self.generate_initial_position(fitness_function)
+            particle = Particle(i + 1, position, fitness_function.run(position))
             particles.append(particle)
         return particles
 

@@ -21,9 +21,8 @@ class Main:
 
     def execute_main(self):
         self.__create_sphere()
-        #self.__create_rastringin()
-        #self.__create_rosenbrock()
-        #self.__pso_service = PSOService()
+        self.__create_rastringin()
+        self.__create_rosenbrock()
 
     def __create_sphere(self):
         sphere_function = SphereFunction()
@@ -36,73 +35,116 @@ class Main:
 
     def __create_rastringin(self):
         rastringin_function = RastringinFunction()
-        self.__create_constant_weight(rastringin_function)
-        self.__create_boxplot_constant_weight(rastringin_function)
-        self.__create_linear_decay_weight(rastringin_function)
-        self.__create_boxplot_linear_decay_weight(rastringin_function)
-        self.__create_constriction_coeff_weight(rastringin_function)
-        self.__create_boxplot_constriction_coeff_weight(rastringin_function)
+        #self.__create_constant_weight(rastringin_function)
+        #self.__create_boxplot_constant_weight(rastringin_function)
+        #self.__create_linear_decay_weight(rastringin_function)
+        #self.__create_boxplot_linear_decay_weight(rastringin_function)
+        #self.__create_constriction_coeff_weight(rastringin_function)
+        #self.__create_boxplot_constriction_coeff_weight(rastringin_function)
 
     def __create_rosenbrock(self):
         rosenbrock_function = RosenbrockFunction()
-        self.__create_constant_weight(rosenbrock_function)
-        self.__create_boxplot_constant_weight(rosenbrock_function)
-        self.__create_linear_decay_weight(rosenbrock_function)
-        self.__create_boxplot_linear_decay_weight(rosenbrock_function)
-        self.__create_constriction_coeff_weight(rosenbrock_function)
-        self.__create_boxplot_constriction_coeff_weight(rosenbrock_function)
+        #self.__create_constant_weight(rosenbrock_function)
+        #self.__create_boxplot_constant_weight(rosenbrock_function)
+        #elf.__create_linear_decay_weight(rosenbrock_function)
+        #self.__create_boxplot_linear_decay_weight(rosenbrock_function)
+        #self.__create_constriction_coeff_weight(rosenbrock_function)
+        #self.__create_boxplot_constriction_coeff_weight(rosenbrock_function)
 
     def __create_constant_weight(self, fitness_function):
         self.__pso_service = PSOService(fitness_function, self.__global_topology, False, False)
         globals = self.__pso_service.fitness_values
-        locals = [7, 8]
-        focals = [9, 10]
+        self.__pso_service = PSOService(fitness_function, self.__local_topology, False, False)
+        locals = self.__pso_service.fitness_values
+        self.__pso_service = PSOService(fitness_function, self.__focal_topology, False, False)
+        focals = self.__pso_service.fitness_values
         title = fitness_function.name + ' ' + Constants.CONSTANT_WEIGHT
         filename = title.lower().replace(' ', '_')
         self.__generate_curve_line_graph(globals, locals, focals, title, filename)
 
-    def __create_boxplot_constant_weight(self, function):
-        np.random.seed(10)
-        globals = np.random.normal(100, 10, 200)
-        locals = np.random.normal(80, 30, 200)
-        focals = np.random.normal(90, 20, 200)
-        title = function.name + ' ' + Constants.CONSTANT_WEIGHT
-        filename = title.lower().replace(' ', '_')
-        self.__generate_boxplot_graph(globals, locals, focals, title, filename)
+    def __create_boxplot_constant_weight(self, fitness_function):
+        globals_array = []
+        locals_array = []
+        focals_array = []
+        for _ in range(Constants.N_REPETITIONS):
+            self.__pso_service = PSOService(fitness_function, self.__global_topology, False, False)
+            globals = self.__pso_service.fitness_values
+            globals_array.append(globals[len(globals) - 1])
 
-    def __create_linear_decay_weight(self, function):
-        globals = [5, 6]
-        locals = [7, 8]
-        focals = [9, 10]
-        title = function.name + ' ' + Constants.LINEAR_DECAY_WEIGHT
+            self.__pso_service = PSOService(fitness_function, self.__local_topology, False, False)
+            locals = self.__pso_service.fitness_values
+            locals_array.append(locals[len(locals) - 1])
+
+            self.__pso_service = PSOService(fitness_function, self.__focal_topology, False, False)
+            focals = self.__pso_service.fitness_values
+            focals_array.append(focals[len(focals) - 1])
+
+        title = fitness_function.name + ' ' + Constants.CONSTANT_WEIGHT
+        filename = title.lower().replace(' ', '_')
+        self.__generate_boxplot_graph(globals_array, locals_array, focals_array, title, filename)
+
+    def __create_linear_decay_weight(self, fitness_function):
+        self.__pso_service = PSOService(fitness_function, self.__global_topology, True, False)
+        globals = self.__pso_service.fitness_values
+        self.__pso_service = PSOService(fitness_function, self.__local_topology, True, False)
+        locals = self.__pso_service.fitness_values
+        self.__pso_service = PSOService(fitness_function, self.__focal_topology, True, False)
+        focals = self.__pso_service.fitness_values
+        title = fitness_function.name + ' ' + Constants.LINEAR_DECAY_WEIGHT
         filename = title.lower().replace(' ', '_')
         self.__generate_curve_line_graph(globals, locals, focals, title, filename)
 
-    def __create_boxplot_linear_decay_weight(self, function):
-        np.random.seed(10)
-        globals = np.random.normal(100, 10, 200)
-        locals = np.random.normal(80, 30, 200)
-        focals = np.random.normal(90, 20, 200)
-        title = function.name + ' ' + Constants.LINEAR_DECAY_WEIGHT
-        filename = title.lower().replace(' ', '_')
-        self.__generate_boxplot_graph(globals, locals, focals, title, filename)
+    def __create_boxplot_linear_decay_weight(self, fitness_function):
+        globals_array = []
+        locals_array = []
+        focals_array = []
+        for _ in range(Constants.N_REPETITIONS):
+            self.__pso_service = PSOService(fitness_function, self.__global_topology, True, False)
+            globals = self.__pso_service.fitness_values
+            globals_array.append(globals[len(globals) - 1])
 
-    def __create_constriction_coeff_weight(self, function):
-        globals = [5, 6]
-        locals = [7, 8]
-        focals = [9, 10]
-        title = function.name + ' ' + Constants.CONSTRICT_COEFFICIENT_WEIGHT
+            self.__pso_service = PSOService(fitness_function, self.__local_topology, True, False)
+            locals = self.__pso_service.fitness_values
+            locals_array.append(locals[len(locals) - 1])
+
+            self.__pso_service = PSOService(fitness_function, self.__focal_topology, True, False)
+            focals = self.__pso_service.fitness_values
+            focals_array.append(focals[len(focals) - 1])
+
+            title = fitness_function.name + ' ' + Constants.LINEAR_DECAY_WEIGHT
+            filename = title.lower().replace(' ', '_')
+            self.__generate_boxplot_graph(globals_array, locals_array, focals_array, title, filename)
+
+    def __create_constriction_coeff_weight(self, fitness_function):
+        self.__pso_service = PSOService(fitness_function, self.__global_topology, False, True)
+        globals = self.__pso_service.fitness_values
+        self.__pso_service = PSOService(fitness_function, self.__local_topology, False, True)
+        locals = self.__pso_service.fitness_values
+        self.__pso_service = PSOService(fitness_function, self.__focal_topology, False, True)
+        focals = self.__pso_service.fitness_values
+        title = fitness_function.name + ' ' + Constants.CONSTRICT_COEFFICIENT_WEIGHT
         filename = title.lower().replace(' ', '_')
         self.__generate_curve_line_graph(globals, locals, focals, title, filename)
 
-    def __create_boxplot_constriction_coeff_weight(self, function):
-        np.random.seed(10)
-        globals = np.random.normal(100, 10, 200)
-        locals = np.random.normal(80, 30, 200)
-        focals = np.random.normal(90, 20, 200)
-        title = function.name + ' ' + Constants.CONSTRICT_COEFFICIENT_WEIGHT
-        filename = title.lower().replace(' ', '_')
-        self.__generate_boxplot_graph(globals, locals, focals, title, filename)
+    def __create_boxplot_constriction_coeff_weight(self, fitness_function):
+        globals_array = []
+        locals_array = []
+        focals_array = []
+        for _ in range(Constants.N_REPETITIONS):
+            self.__pso_service = PSOService(fitness_function, self.__global_topology, False, True)
+            globals = self.__pso_service.fitness_values
+            globals_array.append(globals[len(globals) - 1])
+
+            self.__pso_service = PSOService(fitness_function, self.__local_topology, False, True)
+            locals = self.__pso_service.fitness_values
+            locals_array.append(locals[len(locals) - 1])
+
+            self.__pso_service = PSOService(fitness_function, self.__focal_topology, False, True)
+            focals = self.__pso_service.fitness_values
+            focals_array.append(focals[len(focals) - 1])
+            title = fitness_function.name + ' ' + Constants.CONSTRICT_COEFFICIENT_WEIGHT
+            filename = title.lower().replace(' ', '_')
+            self.__generate_boxplot_graph(globals_array, locals_array, focals_array, title, filename)
 
     @staticmethod
     def __generate_curve_line_graph(globals, locals, focals, title, filename):
@@ -111,6 +153,7 @@ class Main:
         plot.plot(focals, label="Focal Best")
         plot.xlabel("Number of iterations")
         plot.ylabel("Fitness")
+        plot.yscale('log')
         plot.legend()
         plot.title("Curve Line: " + title)
         plot.savefig('..//file//curve_line_' + filename + '.png')

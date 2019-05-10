@@ -28,9 +28,7 @@ class PSOService:
         count_iterations: int = 0
         while count_iterations < Constants.N_ITERATIONS:
             self.calculate_fitness()
-           # print("ANTES - Gbest: ", self.__fitness_function.run(self.__gbest))
             self.update_gbest()
-            #print("DEPOIS - Gbest: ", self.__fitness_function.run(self.__gbest))
             inertia = self.generate_inertia(self.__linear_decay_weight, self.__constriction_coeff_weight,
                                             count_iterations)
             self.__particles = self.__topology.calculate_velocity(self.__particles, self.__gbest,
@@ -38,7 +36,7 @@ class PSOService:
             self.update_position()
             self.update_bound_adjustament()
             self.__fitness_values.append(self.__fitness_function.run(self.__gbest))
-            print("Count Iteration: ", count_iterations, " fitness: ", self.__fitness_values[count_iterations - 1])
+           # print("Count Iteration: ", count_iterations, " fitness: ", self.__fitness_values[count_iterations - 1])
             count_iterations += 1
 
     def calculate_fitness(self):
@@ -49,7 +47,6 @@ class PSOService:
 
     def update_gbest(self):
         for particle in self.__particles:
-          #  print("pbest: ", self.__fitness_function.run(particle.pbest), " gbest: ", self.__fitness_function.run(self.__gbest), "limit_exceeded: ", self.is_limit_exceeded(particle.pbest))
             if (self.__fitness_function.run(particle.pbest) < self.__fitness_function.run(
                     self.__gbest)) and self.is_limit_exceeded(particle.pbest):
                 self.__gbest = copy(particle.pbest)

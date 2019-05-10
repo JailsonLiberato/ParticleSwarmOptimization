@@ -3,20 +3,15 @@ from util.constants import Constants
 from copy import copy
 
 
-class Particle:
+class Particle(object):
 
-    __id: int
-    __position: [float]
-    __velocity: [float]
-    __pbest: [float]
-    __lbest: [float]
-    __fitness: float
-
-    def __init__(self, id, position):
+    def __init__(self, id, position, fitness):
+        self.__fitness = fitness
         self.__id = id
         self.__position = position
         self.__pbest = copy(position)
         self.__velocity = np.zeros(Constants.N_DIMENSIONS)
+        self.__lbest = []
 
     @property
     def id(self):
@@ -61,6 +56,5 @@ class Particle:
     @fitness.setter
     def fitness(self, fitness):
         self.__fitness = fitness
-
 
 
